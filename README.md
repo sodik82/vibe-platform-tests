@@ -8,6 +8,7 @@ One of the criteria is how it can be "promoted" to production (assuming also som
 ## Example application - prompt
 
 * to provide "fair" comparision to different platforms which might have different technology preferences, prompt try not to force particular technologies (assumption is that non-tech people can start)
+* the prompt does not specify the details that tech people will mention - like authenticated admin for download - we will see how the platforms will deal with it
 
 ```
 We want to build simple application that can A/B test design of our webpage. Therefore we want to be able create simple "experiment" for test users.
@@ -26,6 +27,60 @@ Experiment will be as following:
 
 ## Tested platforms
 
-### Claude code
+### Claude code - plain
 
 * not "easiest" choice for non-tech people but doable (aspecially when we assume there will be tech people anyway supporting moving to production)
+* plain - just using prompt as is, no planing, simple answers if needed
+* first version
+  * well, we don't want to influence the users ;-)
+  ![plain1](image.png)
+
+### Claude code - meta prompt
+
+* we took prompt and let AI enhance it before passing it to claude code
+
+```
+Role & Goal:
+You are an expert full-stack developer. I want you to build a lightweight, anonymous A/B testing and survey application. The goal is to show users a landing page variant, ask them memory-based questions, and track their drop-off rates in a funnel.
+
+Tech Stack:
+
+Framework: Next.js (App Router)
+
+Styling: Tailwind CSS
+
+Database: Supabase (using @supabase/supabase-js)
+
+Icons: Lucide React (if needed)
+
+Core Architecture & State:
+
+Anonymous Tracking: When a user clicks start, immediately generate a unique sessionId (UUID).
+
+A/B Assignment: Randomly assign the user to either "Variant A" or "Variant B" (representing two different placeholder image URLs) at the start of the session. Save this assignment to Supabase immediately.
+
+Strict Linear Progression: Users cannot go back. Handle the step progression via a single-page React state machine so the browser "Back" button doesn't mess up the flow. If the page is reloaded, they start from scratch.
+
+Continuous Saving: Update the Supabase row asynchronously in the background every time the user completes a step. This is crucial so we capture partial answers and can analyze exactly where users drop off in the funnel.
+
+User Flow (Step-by-Step):
+
+Intro Step: A minimalist screen with a short title and description explaining the experiment. Include a prominent "Start Experiment" button. Clicking this generates the session ID, assigns the variant, and logs "Step 1 complete" to Supabase.
+
+Exposure Step: Show a full-screen image of the assigned landing page variant. Remove all other UI elements. Hardcode a timer so the image is shown for exactly 10 seconds, after which it automatically transitions to the next step.
+
+Free-Text Question Step: Display a clean, centered form asking: "Based on what you just saw, in which area of business is this company working?" Provide a text area and a "Next" button.
+
+Multiple Choice Step: Ask basically the same question, but provide randomized multiple-choice buttons: "Software Development", "Fashion", "Healthcare", and "Other". Clicking an option saves the answer and moves them to the final step.
+
+Thank You Step: A simple screen thanking them for their time.
+
+Database Schema & Export:
+
+Provide me with the SQL snippet I need to run in my Supabase SQL Editor to create the experiment_results table. It should capture: id, session_id, variant_assigned, highest_step_reached (1-5), free_text_answer, multiple_choice_answer, and created_at.
+
+Create a simple, unstyled, hidden route at /admin that fetches all records from Supabase and allows me to download them as a CSV file.
+
+UI/UX Vibe:
+The design should be extremely clean, modern, and distraction-free. Use a white or very light gray background with highly legible sans-serif typography. Keep the content centered on the screen.
+```
