@@ -34,10 +34,14 @@ Experiment will be as following:
 * first version
   * well, we don't want to influence the users ;-)
   ![plain1](image.png)
+  * there was bug - I put there my png file, but file was not shown (forcing jpg extension) - I ask him to fix it just describing the bug from user perspective
+* fixed version works - rather simple, just filesystem as storage, no authorization for download but allows to test multiple variants.
+* running it locally require simple command line (but claude code lives in command line ;-))
+* deployment would be non-trivial for non-tech people - simple nodejs application
 
 ### Claude code - meta prompt
 
-* we took prompt and let AI enhance it before passing it to claude code
+* we took prompt and let AI enhance it before passing it to claude code (again no preferences from user about tech stack, I let him pick)
 
 ```
 Role & Goal:

@@ -86,6 +86,7 @@ function renderIntro() {
       const data = await res.json();
       session.sessionId = data.sessionId;
       session.variant = data.variant;
+      session.variantFile = data.variantFile;
       session.hasImage = data.hasImage;
     } catch (err) {
       console.error('Failed to start session', err);
@@ -109,7 +110,7 @@ function renderImage() {
       <div id="image-countdown">${IMAGE_DURATION_MS / 1000}s</div>
       <img
         id="variant-image"
-        src="/images/variant-${session.variant}.jpg"
+        src="/images/${session.variantFile}"
         alt="Design variant"
         onerror="this.onerror=null; showImagePlaceholder()"
       >
@@ -170,8 +171,7 @@ function renderFreeText() {
       <p>
         Based on what you just saw — in what area of business does this company operate?
       </p>
-      <p class="hint">Write a few words or sentences in your own words.</p>
-      <textarea id="free-answer" placeholder="e.g. They seem to sell software for businesses…" rows="5"></textarea>
+      <textarea id="free-answer" placeholder="Your answer…" rows="5"></textarea>
       <div class="field-error" id="free-error"></div>
       <button class="btn" id="free-next">Next</button>
     </div>

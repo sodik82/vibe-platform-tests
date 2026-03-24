@@ -64,7 +64,7 @@ app.post('/api/session/start', (req, res) => {
   };
 
   writeSession(session);
-  res.json({ sessionId, variant: variant.name, hasImage: variant.file !== null });
+  res.json({ sessionId, variant: variant.name, variantFile: variant.file, hasImage: variant.file !== null });
 });
 
 // Record a completed step
