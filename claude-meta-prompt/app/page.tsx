@@ -4,13 +4,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { createSession, updateSession } from '@/lib/experiment'
 
-type Variant = 'A' | 'B'
+type Variant = 'A'
 type Step = 1 | 2 | 3 | 4 | 5
 
-// Placeholder variant images — replace with real landing page screenshots
+// Local variant images — place files in the /public folder
 const VARIANT_IMAGES: Record<Variant, string> = {
-  A: 'https://placehold.co/1920x1080/1a1a2e/ffffff?text=Variant+A+Landing+Page',
-  B: 'https://placehold.co/1920x1080/16213e/e0e0e0?text=Variant+B+Landing+Page',
+  A: '/variant-a.png',
 }
 
 const MULTIPLE_CHOICE_OPTIONS = ['Software Development', 'Fashion', 'Healthcare', 'Other']
