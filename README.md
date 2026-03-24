@@ -38,6 +38,7 @@ Experiment will be as following:
 * fixed version works - rather simple, just filesystem as storage, no authorization for download but allows to test multiple variants.
 * running it locally require simple command line (but claude code lives in command line ;-))
 * deployment would be non-trivial for non-tech people - simple nodejs application
+* used 20% of my 5 hour window (pro plan)
 
 ### Claude code - meta prompt
 
@@ -88,3 +89,12 @@ Create a simple, unstyled, hidden route at /admin that fetches all records from 
 UI/UX Vibe:
 The design should be extremely clean, modern, and distraction-free. Use a white or very light gray background with highly legible sans-serif typography. Keep the content centered on the screen.
 ```
+
+* stack is more "profesional" but it is even more complicated for non-tech to run
+* I followed AI instructions, needed extra help and first version fails with "invisible (for user/non-tech)" error in browser console
+![meta1](image-1.png)
+  * probably my mistake (shall not use npm start - which was my first option) but most likely non-tech person wouldn't know or even see the error
+* it is using "legacy" tokens
+* nice admin
+![meta2](image-2.png)
+* variants are not simple files in repo - need to upload it somewhere...
