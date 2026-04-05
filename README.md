@@ -15,7 +15,7 @@ We want to build simple application that can A/B test design of our webpage. The
 
 Experiment will be as following:
 1. On first page - intro page there will be short info about how this experiment will go on and let user click when he is ready to start
-2. Then we will show the user full screen image of our landing page (one tested variant), it will be shown for 10 seconds after which it will disapear
+2. Then we will show the user full screen image of our landing page (one tested variant), it will be shown for 5 seconds after which it will disapear
 3. Then there will be a page with simple free text question asking in which area of business the company with this webpage is working.
 4. Then next page will ask basically same question, only there there will be randomized choice options from options like software development, fashion, and come up with 3 different options.
 
@@ -97,4 +97,44 @@ The design should be extremely clean, modern, and distraction-free. Use a white 
 * it is using "legacy" tokens
 * nice admin
 ![meta2](image-2.png)
-* variants are not simple files in repo - need to upload it somewhere...
+* variants are not simple files in repo - need to upload it somewhere... => need to ask for fix
+* again, no security for admin
+
+### Lovable.ai - Build mode
+
+Free plan - 5 credits per day (up to 30/month)
+
+I used standard prompt with build mode. Needed "allowed" cloud for backend (should be supabase), as usual not authorization (5 credits -> 2 c)
+
+Then I uploaded my image via prompt (it was one of the suggestions) (-> 1.3 credit)
+
+Then start publishing and I offered security review
+![lovable-security-findings](image-3.png)
+
+Nice think that they check for vulnerabilities for dependencies.
+![lovable-vulnerabilitities](image-4.png)
+
+After fixing all security issues, "major" one is still there...
+![lovable-security-round2](image-5.png)
+
+Next try is basically same (based on scan), will check it manually if it is real issue. Never asked my anything. Not sure how do I login as admin ;-) When I asked for it - I was already run out of my credits (it probably disapeared during free security fixes)
+
+Then I find it in menus somewhere (`sodik@sodik.sk` / `jHvw9T%Q^^lA`)
+
+Experiment: https://fun-ab-test.lovable.app/
+
+Don't know how to download code (except one file at a time) - I needed to connect to my github ( https://github.com/sodik82/fun-ab-test )
+
+### Bolt.new - Build mode
+
+Uses webcontainers - everythings runs in browser. Can import your design system (haven't tried it yet)
+
+Similar as lovable - it generated random image and then I asked him to upload my image (no suggestion), daily credit out now.
+
+Lovable has nicer URLS (for results) - not only "real urls" (/results vs /#results) but UI was nicely suggesting it in bolt I need to write it manually
+
+Publishing automatically runs security scan. Very similar to lovable. Question is if this is not security audit from supabase?? But it is not free (as lovable)
+![bolt-security-audit](image-6.png)
+
+
+
