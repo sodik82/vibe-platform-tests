@@ -125,9 +125,28 @@ Experiment: https://fun-ab-test.lovable.app/
 
 Don't know how to download code (except one file at a time) - I needed to connect to my github ( https://github.com/sodik82/fun-ab-test )
 
+#### Review
+
+Manual review by human (focus on security)
+
+1. Cors headers allows `*`
+2. Dummy tests (basically only test setup) there
+3. Supabase credentials are in git
+4. Create session could use rate-limiting (as it does not require auth)
+5. Supabase edge functions use Deno
+6. Client side code does not do loading at all and error handling just as console.error
+7. Client side code is full of "tailwind" - no reuse etc..
+
+#### Tech / Deps
+
+* React 18.3
+* tailwind, supabase
+* more dependencies as bolt, but looks legit
+* npm audit - 9 high
+
 ### Bolt.new - Build mode
 
-Uses webcontainers - everythings runs in browser. Can import your design system (haven't tried it yet)
+Uses webcontainers - everythings runs in browser. Can import your design system (haven't tried it yet). You can choose model (sonet 4.5 in free)
 
 Similar as lovable - it generated random image and then I asked him to upload my image (no suggestion), daily credit out now.
 
@@ -136,5 +155,42 @@ Lovable has nicer URLS (for results) - not only "real urls" (/results vs /#resul
 Publishing automatically runs security scan. Very similar to lovable. Question is if this is not security audit from supabase?? But it is not free (as lovable)
 ![bolt-security-audit](image-6.png)
 
+Fixed on "first" time but I don't need to login to see results.
 
+Published: https://webpage-design-a-b-t-m04u.bolt.host
+
+You can run even commands (e.g. lint) in termin in webcontainer....
+
+![bolt-terminal](image-7.png)
+
+Source - also linked to github: https://github.com/sodik82/bolt-webpage-ab-test
+
+#### Tech / Deps
+
+* React 18.3
+* Tailwind
+* "Just few/used" dependencies
+* npm audit - 6 high
+
+### Create.xyz
+
+Similar to lovable - need to prompt to update image, has "nicer" URLs. no authentication in first round.
+
+* has no security audit
+* can download code as zip (github connection allows 2-ways)
+* seems to support mobile (as the only one from above)
+* "bleeding edge" - integrations in "transition"
+
+```
+As we transition to our new builder integrations may be temporarily unavailable. We are working to improve their functionality and compatibility with the new system. 
+```
+
+Published: https://webpage-a-b-testing-experim-207.created.app/
+
+#### Tech / Deps
+
+* React 18.3
+* Tailwind
+* Lot of deps - also clearly unused (e.g. stripe)
+* npm audit - 3 high
 
