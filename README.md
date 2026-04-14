@@ -127,14 +127,14 @@ Don't know how to download code (except one file at a time) - I needed to connec
 
 #### Review
 
-Manual review by human (focus on security)
+Manual review/remarks by human (focus on security)
 
 1. Cors headers allows `*`
 2. Dummy tests (basically only test setup) there
 3. Supabase credentials are in git
 4. Create session could use rate-limiting (as it does not require auth)
 5. Supabase edge functions use Deno
-6. Client side code does not do loading at all and error handling just as console.error
+6. Client side code does not do loading indicator at all and error handling just as console.error
 7. Client side code is full of "tailwind" - no reuse etc..
 
 #### Tech / Deps
@@ -172,13 +172,13 @@ Source - also linked to github: https://github.com/sodik82/bolt-webpage-ab-test
 * "Just few/used" dependencies
 * npm audit - 6 high
 
-### Create.xyz
+### Create.xyz (Anything.com)
 
 Similar to lovable - need to prompt to update image, has "nicer" URLs. no authentication in first round.
 
 * has no security audit
 * can download code as zip (github connection allows 2-ways)
-* seems to support mobile (as the only one from above)
+* seems to support mobile (as the only one from above) - expo
 * "bleeding edge" - integrations in "transition"
 
 ```
@@ -191,6 +191,31 @@ Published: https://webpage-a-b-testing-experim-207.created.app/
 
 * React 18.3
 * Tailwind
+* Bun
+* stack: react-router?? + something from tanstack
+![xyz-stack](image-9.png)
 * Lot of deps - also clearly unused (e.g. stripe)
 * npm audit - 3 high
 
+#### Review
+
+* Frontend
+  * Pretty "spagetty" code - whole screen implemented in one file (and one component) - loading of data, "summary", table and including CSV download client side generation
+  * At least handle simple loading/error cases
+* Looks to contain strange internal code (as from some "starter"/template)
+![xyz-framework-code](image-8.png)
+  * seems to contain more "dead" code
+* Tailwind classes without reuse (similar to others)
+* Strange mix of JS & JSX (mostly) and TS & TSX
+* Typecheck was not succesfull
+* No readme - how to start etc...
+* Locally I am not able to start it - due to missing DB URL (as env) -> not easy for non-tech to run it outside the platform
+* basically no "authz" on API (as most of the others)
+
+
+#### Comments
+
+* Generating mobile app is interesting feature but non-tech people might have troubles publishing it
+![xyz-mobile](image-10.png)
+* The worst code I have seen
+* Very high coupling to the platform (vendor lock) - hard to deploy elsewhere
