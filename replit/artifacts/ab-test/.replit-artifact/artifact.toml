@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "A/B Test Experiment"
+version = "1.0.0"
+id = "artifacts/ab-test"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23366
+
+[services.development]
+run = "pnpm --filter @workspace/ab-test run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ab-test", "run", "build" ]
+publicDir = "artifacts/ab-test/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23366"
+BASE_PATH = "/"

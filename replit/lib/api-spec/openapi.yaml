@@ -1,0 +1,295 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: experiments
+    description: Experiment session operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /sessions:
+    post:
+      operationId: createSession
+      tags: [experiments]
+      summary: Create a new experiment session
+      description: Creates a new anonymous session and assigns a random variant image
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSessionBody"
+      responses:
+        "201":
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+
+  /sessions/{sessionId}:
+    get:
+      operationId: getSession
+      tags: [experiments]
+      summary: Get session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Session found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "404":
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /sessions/{sessionId}/step:
+    post:
+      operationId: submitStep
+      tags: [experiments]
+      summary: Submit an answer for the current step
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubmitStepBody"
+      responses:
+        "200":
+          description: Step submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "404":
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /results:
+    get:
+      operationId: getResults
+      tags: [experiments]
+      summary: Get all experiment results for download
+      responses:
+        "200":
+          description: Results data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResultsResponse"
+
+  /results/funnel:
+    get:
+      operationId: getFunnelStats
+      tags: [experiments]
+      summary: Get funnel drop-off statistics
+      responses:
+        "200":
+          description: Funnel statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FunnelStats"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    CreateSessionBody:
+      type: object
+      properties:
+        userAgent:
+          type: string
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+        variant:
+          type: string
+        currentStep:
+          type: integer
+          description: "0=started, 1=viewed image, 2=answered free text, 3=completed"
+        freeTextAnswer:
+          type: string
+          nullable: true
+        multipleChoiceAnswer:
+          type: string
+          nullable: true
+        multipleChoiceOptions:
+          type: array
+          items:
+            type: string
+          description: Randomized options shown to this user
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - variant
+        - currentStep
+        - freeTextAnswer
+        - multipleChoiceAnswer
+        - multipleChoiceOptions
+        - createdAt
+        - completedAt
+
+    SubmitStepBody:
+      type: object
+      properties:
+        step:
+          type: integer
+          description: "1=viewed image, 2=free text answer, 3=multiple choice answer"
+        answer:
+          type: string
+          nullable: true
+      required:
+        - step
+
+    ResultsResponse:
+      type: object
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/SessionResult"
+        total:
+          type: integer
+      required:
+        - sessions
+        - total
+
+    SessionResult:
+      type: object
+      properties:
+        id:
+          type: string
+        variant:
+          type: string
+        currentStep:
+          type: integer
+        freeTextAnswer:
+          type: string
+          nullable: true
+        multipleChoiceAnswer:
+          type: string
+          nullable: true
+        multipleChoiceOptions:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - id
+        - variant
+        - currentStep
+        - freeTextAnswer
+        - multipleChoiceAnswer
+        - multipleChoiceOptions
+        - createdAt
+        - completedAt
+
+    FunnelStats:
+      type: object
+      properties:
+        totalStarted:
+          type: integer
+        viewedImage:
+          type: integer
+        answeredFreeText:
+          type: integer
+        completed:
+          type: integer
+        byVariant:
+          type: array
+          items:
+            $ref: "#/components/schemas/VariantStats"
+      required:
+        - totalStarted
+        - viewedImage
+        - answeredFreeText
+        - completed
+        - byVariant
+
+    VariantStats:
+      type: object
+      properties:
+        variant:
+          type: string
+        totalStarted:
+          type: integer
+        viewedImage:
+          type: integer
+        answeredFreeText:
+          type: integer
+        completed:
+          type: integer
+      required:
+        - variant
+        - totalStarted
+        - viewedImage
+        - answeredFreeText
+        - completed
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

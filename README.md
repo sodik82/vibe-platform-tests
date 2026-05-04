@@ -144,13 +144,19 @@ Manual review/remarks by human (focus on security)
 * more dependencies as bolt, but looks legit
 * npm audit - 9 high
 
+#### Pricing
+
+* Pro plan (25E) has same daily limit as free, but you can spent more during month => not suitable for occasional vibe-coding
+  * removes badge 
+* Next plan is 50E
+
 ### Bolt.new - Build mode
 
 Uses webcontainers - everythings runs in browser. Can import your design system (haven't tried it yet). You can choose model (sonet 4.5 in free)
 
 Similar as lovable - it generated random image and then I asked him to upload my image (no suggestion), daily credit out now.
 
-Lovable has nicer URLS (for results) - not only "real urls" (/results vs /#results) but UI was nicely suggesting it in bolt I need to write it manually
+Lovable has nicer URLS (for results) - not only "real urls" (/results vs /#results) but lovavle UI was nicely suggesting different paths. in bolt I need to write it manually
 
 Publishing automatically runs security scan. Very similar to lovable. Question is if this is not security audit from supabase?? But it is not free (as lovable)
 ![bolt-security-audit](image-6.png)
@@ -171,6 +177,11 @@ Source - also linked to github: https://github.com/sodik82/bolt-webpage-ab-test
 * Tailwind
 * "Just few/used" dependencies
 * npm audit - 6 high
+
+#### Pricing
+
+* Pro plan (25$) has no daily limits
+  * unclear "sharing/collaborators" - Team plan is 30$/month/member
 
 ### Create.xyz (Anything.com)
 
@@ -219,3 +230,27 @@ Published: https://webpage-a-b-testing-experim-207.created.app/
 ![xyz-mobile](image-10.png)
 * The worst code I have seen
 * Very high coupling to the platform (vendor lock) - hard to deploy elsewhere
+
+### Replit
+
+* In free plan, it defaults to "economy" agent mode and it made bug that it was not progressing after 5 seconds. After I described bug, it fixed it.
+* No auth as ussual
+* No "nice" URL paths picker
+* Has security review (but in free only for dependencies)
+* Quite a lot of options/features (like analytics, ...)
+![replit-options](image-11.png)
+* Can build mobile apps and has different integrations like stripe or google drive
+
+Published: https://design-split-test--stanislavmiklik.replit.app
+
+#### Pricing
+* Free plan has only 1 app
+* Core plan (20$) has up to 5 collaborants
+  * should support "full agentic" mode that reviews its code etc..
+
+#### Tech / Deps
+* pnpm monorepo with multiple project (frontend, backend + few "generated" libs like server + react client generated from openapi)
+* typescript everywhere
+* Express v5 + drizzle ORM + zod
+* react + vite + tailwind + shadcdn/ui + tanstack query + (?) Wouter
+
